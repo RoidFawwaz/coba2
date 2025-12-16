@@ -133,7 +133,21 @@ with tab_data:
 
     st.success("Outlier berhasil ditangani")
 
-    st.subheader("7. Evaluasi Model SVM")
+    st.subheader("7. Boxplot Setelah Penanganan Outlier")
+
+    cols_per_row = 3
+    cols = st.columns(cols_per_row)
+
+    for i, col in enumerate(numeric_cols):
+        with cols[i % cols_per_row]:
+            fig, ax = plt.subplots(figsize=(4, 4))
+            ax.boxplot(data[col], vert=True)
+            ax.set_title(col)
+            ax.set_ylabel(col)
+            ax.grid(True)
+        st.pyplot(fig)
+
+    st.subheader("8. Evaluasi Model SVM")
 
     accuracy = accuracy_score(y_test, y_pred)
     st.metric("Akurasi Model", f"{accuracy:.2%}")
@@ -153,101 +167,101 @@ with tab_data:
 
     import pandas as pd
 
-# Ambil hanya kolom numerik
-corr_matrix = data.corr()
+    # Ambil hanya kolom numerik
+    corr_matrix = data.corr()
 
-print("Matriks Korelasi Antar Atribut:")
-print(corr_matrix)
+    print("Matriks Korelasi Antar Atribut:")
+    print(corr_matrix)
 
-st.subheader("Korelasi Antar Atribut")
+    st.subheader("Korelasi Antar Atribut")
 
-corr_matrix = data.corr(numeric_only=True)
+    corr_matrix = data.corr(numeric_only=True)
 
-st.write("Matriks Korelasi Antar Atribut:")
-st.dataframe(corr_matrix, use_container_width=True)
+    st.write("Matriks Korelasi Antar Atribut:")
+    st.dataframe(corr_matrix, use_container_width=True)
 
-import matplotlib.pyplot as plt
-import seaborn as sns
+    import matplotlib.pyplot as plt
+    import seaborn as sns
 
-plt.figure(figsize=(10, 8))
-sns.heatmap(
-    corr_matrix,
-    annot=True,
-    fmt=".2f",
-    cmap="coolwarm",
-    linewidths=0.5
-)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(
+        corr_matrix,
+        annot=True,
+        fmt=".2f",
+        cmap="coolwarm",
+        linewidths=0.5
+    )
 
-plt.title("Heatmap Korelasi Antar Atribut")
-plt.show()
+    plt.title("Heatmap Korelasi Antar Atribut")
+    plt.show()
 
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+    import seaborn as sns
+    import matplotlib.pyplot as plt
 
-fitur_pilih = [
-    'Kadar gula darah',
-    'Indeks massa tubuh',
-    'Age',
-    'Tekanan darah',
-    'Outcome'
-]
+    fitur_pilih = [
+        'Kadar gula darah',
+        'Indeks massa tubuh',
+        'Age',
+        'Tekanan darah',
+        'Outcome'
+    ]
 
-sns.pairplot(
-    data[fitur_pilih],
-    hue='Outcome',
-    diag_kind='kde',
-    plot_kws={'alpha': 0.6, 's': 30}
-)
+    sns.pairplot(
+        data[fitur_pilih],
+        hue='Outcome',
+        diag_kind='kde',
+        plot_kws={'alpha': 0.6, 's': 30}
+    )
 
-plt.suptitle(
-    "Pairplot Antar Atribut Utama pada Data SVM",
-    y=1.02,
-    fontsize=14
-)
-plt.show()
+    plt.suptitle(
+        "Pairplot Antar Atribut Utama pada Data SVM",
+        y=1.02,
+        fontsize=14
+    )
+    plt.show()
 
-import seaborn as sns
+    import seaborn as sns
 
-st.subheader("Heatmap Korelasi Antar Atribut")
+    st.subheader("Heatmap Korelasi Antar Atribut")
 
-fig, ax = plt.subplots(figsize=(10, 8))
-sns.heatmap(
-    corr_matrix,
-    annot=True,
-    fmt=".2f",
-    cmap="coolwarm",
-    linewidths=0.5,
-    ax=ax
-)
+    fig, ax = plt.subplots(figsize=(10, 8))
+    sns.heatmap(
+        corr_matrix,
+        annot=True,
+        fmt=".2f",
+        cmap="coolwarm",
+        linewidths=0.5,
+        ax=ax
+    )
 
-ax.set_title("Heatmap Korelasi Antar Atribut")
-st.pyplot(fig)
+    ax.set_title("Heatmap Korelasi Antar Atribut")
+    st.pyplot(fig)
 
-st.subheader("Pairplot Antar Atribut Utama")
+    st.subheader("Pairplot Antar Atribut Utama")
 
-fitur_pilih = [
-    'Kadar gula darah',
-    'Indeks massa tubuh',
-    'Age',
-    'Tekanan darah',
-    'Outcome'
-]
+    fitur_pilih = [
+        'Kadar gula darah',
+        'Indeks massa tubuh',
+        'Age',
+        'Tekanan darah',
+        'Outcome'
+    ]
 
-fig = sns.pairplot(
-    data[fitur_pilih],
-    hue='Outcome',
-    diag_kind='kde',
-    plot_kws={'alpha': 0.6, 's': 30}
-)
+    fig = sns.pairplot(
+        data[fitur_pilih],
+        hue='Outcome',
+        diag_kind='kde',
+        plot_kws={'alpha': 0.6, 's': 30}
+    )
 
-fig.fig.suptitle(
-    "Pairplot Antar Atribut Utama pada Data SVM kelompok 5",
-    y=1.02,
-    fontsize=14
-)
+    fig.fig.suptitle(
+        "Pairplot Antar Atribut Utama pada Data SVM kelompok 5",
+        y=1.02,
+        fontsize=14
+    )
 
-st.pyplot(fig.fig)
+    st.pyplot(fig.fig)
 
 
 # =====================================================
