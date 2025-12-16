@@ -7,7 +7,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-data=pd.read_excel("data/data diabetes.xlsx")
+data=pd.read_excel("data/data_diabetes.xlsx")
+data.columns = data.columns.str.strip()
+
 
 data.head(10)
 
@@ -114,9 +116,14 @@ for col in numeric_cols:
 data.duplicated().sum()
 
 
-data.write(data.columns)
-X = data.drop("Outcome", axis=1)
-y = data["Outcome"]
+TARGET = "Outcome"
+
+if TARGET not in data.columns:
+    raise ValueError(f"Kolom target '{TARGET}' tidak ditemukan. Kolom tersedia: {list(data.columns)}")
+
+X = data.drop(TARGET, axis=1)
+y = data[TARGET]
+
 
 from sklearn.model_selection import train_test_split
 
