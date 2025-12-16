@@ -366,5 +366,100 @@ ax.grid(True)
 
 st.pyplot(fig)
 
+# =========================================================
+# PREDIKSI DIABETES (APLIKASI INTERAKTIF)
+# =========================================================
+st.markdown("---")
+st.subheader("10. Prediksi Diabetes")
+
+st.write(
+    "Masukkan data pasien untuk memprediksi apakah berpotensi **Diabetes** atau **Tidak Diabetes** "
+    "menggunakan model SVM yang telah dilatih."
+)
+
+# =========================================================
+# INPUT MANUAL
+# =========================================================
+st.markdown("### 🔹 Input Manual Data Pasien")
+
+with st.form("form_prediksi"):
+    input_data = {}
+
+    for col in X.columns:
+        min_val = float(X[col].min())
+        max_val = float(X[col].max())
+        mean_val = float(X[col].mean())
+
+        input_data[col] = st.number_input(
+            label=col,
+            min_value=min_val,
+            max_value=max_val,
+            value=mean_val
+        )
+
+    submit_btn = st.form_submit_button("Prediksi")
+
+if submit_btn:
+    input_df = pd.DataFrame([input_data])
+
+    # Scaling input
+    input_scaled = scaler.transform(input_df)
+
+    # Prediksi
+    pred = svm_model.predict(input_scaled)[0]
+
+    hasil = "Diabetes" if pred == 1 else "Tidak Diabetes"
+
+    if hasattr(svm_model, "decision_function"):
+        score = svm_model.decision_function(input_scaled)[0]
+        confidence = abs(score)
+    else:
+        confidence = None
+
+    st.success(f"Hasil Prediksi: **{hasil}**")
+
+    if confidence is not None:
+        st.info(f"Skor Kepercayaan Model: {confidence:.2f}")
+
+# =========================================================
+# UPLOAD FILE (CSV / EXCEL)
+# =========================================================
+st.markdown("### 🔹 Prediksi dari File (CSV / Excel)")
+
+uploaded_file = st.file_uploader(
+    "Upload file berisi data pasien",
+    type=["csv", "xlsx"]
+)
+
+if uploaded_file:
+    if uploaded_file.name.endswith(".csv"):
+        input_file_df = pd.read_csv(uploaded_file)
+    else:
+        input_file_df = pd.read_excel(uploaded_file)
+
+    st.write("Preview Data:")
+    st.dataframe(input_file_df.head(), use_container_width=True)
+
+    # Validasi kolom
+    missing_cols = set(X.columns) - set(input_file_df.columns)
+
+    if missing_cols:
+        st.error(f"Kolom berikut tidak ditemukan di file: {missing_cols}")
+    else:
+        input_file_df = input_file_df[X.columns]
+
+        input_scaled = scaler.transform(input_file_df)
+        preds = svm_model.predict(input_scaled)
+
+        hasil_prediksi = input_file_df.copy()
+        hasil_prediksi["Prediksi"] = np.where(preds == 1, "Diabetes", "Tidak Diabetes")
+
+        st.success("Prediksi berhasil dilakukan")
+        st.dataframe(hasil_prediksi, use_container_width=True)
+
+        # Ringkasan
+        st.markdown("### Ringkasan Hasil")
+        st.write(hasil_prediksi["Prediksi"].value_counts())
+
 st.markdown("---")
 st.caption("Aplikasi Streamlit – Analisis Diabetes dengan SVM")
