@@ -29,7 +29,7 @@ st.title("Analisis Diabetes Menggunakan Support Vector Machine (SVM)")
 # =====================================================
 @st.cache_data
 def load_data():
-    df = pd.read_excel("data/data_diabetes.xlsx")
+    df = pd.read_excel("data/diabetes.xlsx")
     df.columns = df.columns.str.strip()
     return df
 
