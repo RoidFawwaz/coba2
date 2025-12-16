@@ -114,7 +114,7 @@ for col in numeric_cols:
 data.duplicated().sum()
 
 
-
+data.write(data.columns)
 X = data.drop("Outcome", axis=1)
 y = data["Outcome"]
 
