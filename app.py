@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-data=pd.read_excel(r"data/data diabetes.xlsx")
+data=pd.read_excel("data/data diabetes.xlsx")
 
 data.head(10)
 
