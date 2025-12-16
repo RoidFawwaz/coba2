@@ -242,7 +242,7 @@ fig = sns.pairplot(
 )
 
 fig.fig.suptitle(
-    "Pairplot Antar Atribut Utama pada Data SVM",
+    "Pairplot Antar Atribut Utama pada Data SVM kelompok 5",
     y=1.02,
     fontsize=14
 )
