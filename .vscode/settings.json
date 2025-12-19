@@ -1,0 +1,5 @@
+{
+    "terminal.integrated.suggest.insertTrailingSpace": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true
+}
