@@ -31,7 +31,7 @@ if menu == "🏠 Home":
 elif menu == "🧹 Preprocessing":
     st.title("🧹 Preprocessing Data")
 
-    uploaded_file = st.file_uploader("Upload Dataset (CSV)", type=["csv"])
+    uploaded_file = st.file_uploader("Upload Dataset (Excel)", type=["excel"])
 
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
